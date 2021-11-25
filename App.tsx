@@ -1,11 +1,11 @@
 import React from 'react';
-import {NativeBaseProvider, Box, Text} from 'native-base';
+import {NativeBaseProvider} from 'native-base';
+import AuthProvider from './src/context/AuthContext';
+
 export default function App() {
   return (
     <NativeBaseProvider>
-      <Box>
-        <Text>holas</Text>
-      </Box>
+      <AuthProvider />
     </NativeBaseProvider>
   );
 }
