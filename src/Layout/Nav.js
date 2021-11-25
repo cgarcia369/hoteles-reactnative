@@ -58,24 +58,71 @@ const Nav = ({state, descriptors, navigation, position}) => {
       </Box>
       <Box
         roundedBottom={'xl'}
-        style={{height: 90}}
+        style={{height: 60}}
         justifyContent={'center'}
         alignItems={'center'}
         overflow={'hidden'}
         position={'relative'}>
-        <VStack w={'full'} h={'full'} position={'absolute'} zIndex={10}>
+        <Box
+          w={'full'}
+          h={'full'}
+          position={'absolute'}
+          zIndex={10}
+          justifyContent={'center'}
+          alignItems={'center'}>
           <HStack w={'full'} justifyContent={'center'} alignItems={'center'}>
-            <Text
-              ml={'5'}
-              fontSize={'3xl'}
-              color={'white'}
-              fontWeight={'light'}>
-              Hoteles BB
-            </Text>
-            <Box
-              flexGrow={1}
-              alignItems={'flex-end'}
-              justifyContent={'flex-end'}>
+            <HStack
+              w={'full'}
+              flex={1}
+              mb={'2'}
+              justifyContent={'center'}
+              alignItems={'center'}>
+              {state.routes.map((route, index) => {
+                const {options} = descriptors[route.key];
+                const label =
+                  options.tabBarLabel !== undefined
+                    ? options.tabBarLabel
+                    : options.title !== undefined
+                    ? options.title
+                    : route.name;
+
+                const isFocused = state.index === index;
+
+                const onPress = () => {
+                  const event = navigation.emit({
+                    type: 'tabPress',
+                    target: route.key,
+                  });
+
+                  if (!isFocused && !event.defaultPrevented) {
+                    navigation.navigate(route.name);
+                  }
+                };
+
+                const onLongPress = () => {
+                  navigation.emit({
+                    type: 'tabLongPress',
+                    target: route.key,
+                  });
+                };
+
+                return (
+                  <Pressable
+                    onPress={onPress}
+                    onLongPress={onLongPress}
+                    flex={1}
+                    bg={'transparent'}>
+                    <Text
+                      fontSize={'xl'}
+                      color={isFocused ? 'orange.300' : 'white'}
+                      textAlign={'center'}>
+                      {label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </HStack>
+            <Box alignItems={'flex-end'} justifyContent={'flex-end'}>
               <Button
                 bgColor={'transparent'}
                 onPress={() => setOpenNav(!openNav)}>
@@ -83,58 +130,7 @@ const Nav = ({state, descriptors, navigation, position}) => {
               </Button>
             </Box>
           </HStack>
-          <HStack
-            w={'full'}
-            flex={1}
-            mb={'2'}
-            justifyContent={'center'}
-            alignItems={'center'}>
-            {state.routes.map((route, index) => {
-              const {options} = descriptors[route.key];
-              const label =
-                options.tabBarLabel !== undefined
-                  ? options.tabBarLabel
-                  : options.title !== undefined
-                  ? options.title
-                  : route.name;
-
-              const isFocused = state.index === index;
-
-              const onPress = () => {
-                const event = navigation.emit({
-                  type: 'tabPress',
-                  target: route.key,
-                });
-
-                if (!isFocused && !event.defaultPrevented) {
-                  navigation.navigate(route.name);
-                }
-              };
-
-              const onLongPress = () => {
-                navigation.emit({
-                  type: 'tabLongPress',
-                  target: route.key,
-                });
-              };
-
-              return (
-                <Pressable
-                  onPress={onPress}
-                  onLongPress={onLongPress}
-                  flex={1}
-                  bg={'transparent'}>
-                  <Text
-                    fontSize={'xl'}
-                    color={isFocused ? 'orange.300' : 'white'}
-                    textAlign={'center'}>
-                    {label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </HStack>
-        </VStack>
+        </Box>
         <Image
           position={'absolute'}
           w={'full'}
