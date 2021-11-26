@@ -1,61 +1,20 @@
 import React, {useState} from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Box,
   HStack,
-  Slide,
   HamburgerIcon,
   Pressable,
-  VStack,
   Button,
   Text,
   Image,
-  CloseIcon,
+  Icon,
 } from 'native-base';
-import {Dimensions, TouchableOpacity} from 'react-native';
-const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+
 const Nav = ({state, descriptors, navigation, position}) => {
   const [openNav, setOpenNav] = useState(false);
   return (
     <>
-      <Box zIndex={999}>
-        <Slide in={openNav} placement={'right'}>
-          <VStack
-            h={windowHeight}
-            w={windowWidth}
-            bgColor={'gray.800'}
-            p={'3'}
-            justifyContent={'center'}>
-            <Button
-              position={'absolute'}
-              top={0}
-              right={0}
-              m={'4'}
-              bgColor={'transparent'}
-              onPress={() => setOpenNav(!openNav)}>
-              <CloseIcon color={'warning.300'} size={'8'} />
-            </Button>
-            <Box my={'4'}>
-              <Text
-                color={'white'}
-                fontSize={'2xl'}
-                fontAlign={'center'}
-                mx={'auto'}>
-                Hoteles
-              </Text>
-            </Box>
-            <Box my={'4'}>
-              <Text
-                color={'white'}
-                fontSize={'2xl'}
-                fontAlign={'center'}
-                mx={'auto'}>
-                Cuenta
-              </Text>
-            </Box>
-          </VStack>
-        </Slide>
-      </Box>
       <Box
         roundedBottom={'xl'}
         style={{height: 60}}
@@ -123,11 +82,15 @@ const Nav = ({state, descriptors, navigation, position}) => {
               })}
             </HStack>
             <Box alignItems={'flex-end'} justifyContent={'flex-end'}>
-              <Button
-                bgColor={'transparent'}
-                onPress={() => setOpenNav(!openNav)}>
-                <HamburgerIcon color={'warning.300'} size={'9'} />
-              </Button>
+              <Pressable onPress={() => navigation.navigate('account')}>
+                <Icon
+                  size="lg"
+                  as={AntDesign}
+                  name="user"
+                  color="white"
+                  mx="2"
+                />
+              </Pressable>
             </Box>
           </HStack>
         </Box>

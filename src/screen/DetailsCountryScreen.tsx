@@ -1,0 +1,1 @@
+import React from 'react';import {Container, Text} from 'native-base';const DetailsCountryScreen = () => {  return (    <Container>      <Text>Details Country Screen</Text>    </Container>  );};export default DetailsCountryScreen;

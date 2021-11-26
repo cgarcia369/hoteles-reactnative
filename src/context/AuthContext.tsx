@@ -2,7 +2,7 @@ import React, {createContext, FC, useContext, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useImmerReducer} from 'use-immer';
 import {useToast} from 'native-base';
-import api from '../Config/axios';
+import api from '../config/axios';
 
 import {AuthReducer, AuthState} from '../reducers/AuthReducer';
 import {
