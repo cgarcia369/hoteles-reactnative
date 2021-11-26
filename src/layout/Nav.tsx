@@ -1,18 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {
-  Box,
-  HStack,
-  HamburgerIcon,
-  Pressable,
-  Button,
-  Text,
-  Image,
-  Icon,
-} from 'native-base';
-
-const Nav = ({state, descriptors, navigation, position}) => {
-  const [openNav, setOpenNav] = useState(false);
+import {Box, HStack, Pressable, Text, Image, Icon} from 'native-base';
+import {nanoid} from 'nanoid/non-secure';
+const Nav = ({state, descriptors, navigation}) => {
   return (
     <>
       <Box
@@ -67,6 +57,7 @@ const Nav = ({state, descriptors, navigation, position}) => {
 
                 return (
                   <Pressable
+                    key={nanoid()}
                     onPress={onPress}
                     onLongPress={onLongPress}
                     flex={1}
