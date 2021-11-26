@@ -10,13 +10,18 @@ import DetailsCountryScreen from '../screen/DetailsCountryScreen';
 import CreateCountryScreen from '../screen/CreateCountryScreen';
 import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
+import AccountScreen from '../screen/AccountScreen';
+
 import {useAuth} from '../context/AuthContext';
-import AccountScreen from "../screen/AccountScreen";
+import Spinner from '../components/Spinner';
 
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
   const {status, user} = useAuth();
+  if (status === 'loading') {
+    return <Spinner />;
+  }
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -59,9 +64,21 @@ const MainNavigator = () => {
         </>
       ) : (
         <>
-	        <Stack.Screen name="account" options={{headerTitle: 'Cuenta'}} component={AccountScreen}/>
-          <Stack.Screen name="login" options={{headerTitle: 'Iniciar sesion'}} component={LoginScreen} />
-          <Stack.Screen name="register" options={{headerTitle: 'Crear cuenta'}} component={RegisterScreen} />
+          <Stack.Screen
+            name="account"
+            options={{headerTitle: 'Cuenta'}}
+            component={AccountScreen}
+          />
+          <Stack.Screen
+            name="login"
+            options={{headerTitle: 'Iniciar sesion'}}
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name="register"
+            options={{headerTitle: 'Crear cuenta'}}
+            component={RegisterScreen}
+          />
         </>
       )}
     </Stack.Navigator>
