@@ -3,6 +3,7 @@ import {User} from '../interfaces/appInterfaces';
 
 export type AuthState = {
   status: 'loading' | 'unauth' | 'auth';
+  loginIsLoading: boolean;
   user: User | null;
 };
 export const AuthReducer = (state: AuthState, action: AuthActions) => {
@@ -22,16 +23,18 @@ export const AuthReducer = (state: AuthState, action: AuthActions) => {
       break;
     }
     case 'LOGIN_INIT': {
-      state.status = 'loading';
+      state.loginIsLoading = true;
       break;
     }
     case 'LOGIN_ERROR': {
       state.status = 'unauth';
+      state.loginIsLoading = false
       break;
     }
     case 'LOGIN_SUCCESS': {
       state.user = action.payload.user;
       state.status = 'auth';
+      state.loginIsLoading = false
       break;
     }
     case 'LOGOUT': {

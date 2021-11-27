@@ -1,49 +1,51 @@
 import React from 'react';
-import {Box, Button, Icon, Text} from 'native-base';
-import {useNavigation} from '@react-navigation/native';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ScrollView, Avatar, Text, Button, Box, Badge} from 'native-base';
 import {useAuth} from '../context/AuthContext';
 
 const AccountScreen = () => {
-  const {status} = useAuth();
-  const navigation = useNavigation();
+  const {user, logout} = useAuth();
   return (
-    <Box
-      p="8"
-      overflowY="scroll"
-      overflowX="hidden"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      textAlign="center">
-      {status === 'auth' ? (
-        <Text>asdf </Text>
-      ) : (
-        <>
-          <Icon size="56" as={Material} name="incognito" color="gray.800" />
-          <Text fontSize="xl">Parece que no has iniciado sesion</Text>
-          <Button
-            w="full"
-            my="4"
-            py="3"
-            onPress={() => navigation.navigate('login')}>
-            <Text fontSize="xl" color="white">
-              Iniciar sesion
-            </Text>
-          </Button>
-          <Button
-            w="full"
-            my="4"
-            py="3"
-            onPress={() => navigation.navigate('register')}>
-            <Text fontSize="xl" color="white">
-              Registrarse
-            </Text>
-          </Button>
-        </>
-      )}
-    </Box>
+    <ScrollView
+      _contentContainerStyle={{
+        h: 'full',
+        p: '8',
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}>
+      <Avatar
+        size={'56'}
+        source={{
+          uri: 'https://i.pinimg.com/originals/09/6d/f0/096df0eb195b8f0d9475924f9a1e9425.jpg',
+        }}
+      />
+      <Text
+        color="gray.600"
+        fontSize="3xl"
+        mt="5">{`${user?.firstName} ${user?.lastName}`}</Text>
+      <Badge mt="2" colorScheme="success">{user?.rol}</Badge>
+      <Box
+        w="full"
+        display="flex"
+        flexGrow={2}
+        justifyContent="flex-end"
+        alignItems="center">
+        <Button
+          onPress={logout}
+          w="full"
+          p="4"
+          bg="orange.400"
+          _pressed={{bg: 'orange.200'}}>
+          <Text fontSize="md" color="white">
+            Logout
+          </Text>
+        </Button>
+      </Box>
+    </ScrollView>
   );
 };
 

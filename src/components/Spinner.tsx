@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 
-import {
+import Animated, {
+  withSequence,
   useSharedValue,
   withTiming,
   Easing,
@@ -11,46 +12,46 @@ import {
 
 import {Icon, Box} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Spinner = () => {
-  const rotation = useSharedValue(0);
-  const animatedStyles = useAnimatedStyle(() => {
+  const style = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          rotateZ: `${rotation.value}deg`,
+          rotate: withRepeat(
+            withSequence(
+              withTiming(360 + 'deg', {duration: 1000}),
+              withTiming(0 + 'deg', {duration: 1000}),
+            ),
+            -1,
+            false,
+          ) as unknown as string,
         },
       ],
     };
-  }, [rotation.value]);
-
-  useEffect(() => {
-    rotation.value = withRepeat(
-      withTiming(360, {
-        duration: 1000,
-        easing: Easing.linear,
-      }),
-      200,
-    );
-    return () => cancelAnimation(rotation);
-  }, []);
+  });
   return (
-    <Box
-      w="full"
-      h="full"
-      display="flex"
-      justifyContent="center"
-      alignItems="center">
+    <Animated.View style={[stylesLoader.box,style]}>
       <Icon
-        size="lg"
+        size="4xl"
         as={MaterialCommunityIcons}
         name="loading"
-        color="white"
+        color="orange.400"
         mx="2"
-        style={animatedStyles}
       />
-    </Box>
+    </Animated.View>
   );
 };
-
+const stylesLoader = StyleSheet.create({
+  box: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    flex: 1,
+  },
+});
 export default Spinner;

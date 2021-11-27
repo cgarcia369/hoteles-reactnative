@@ -14,6 +14,7 @@ import AccountScreen from '../screen/AccountScreen';
 
 import {useAuth} from '../context/AuthContext';
 import Spinner from '../components/Spinner';
+import UnAuthScreen from '../screen/UnAuthScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,12 +24,23 @@ const MainNavigator = () => {
     return <Spinner />;
   }
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={TabNavigator}
-        options={{headerShown: false}}
-      />
+    <Stack.Navigator
+      initialRouteName="unauth"
+      screenOptions={{animationEnabled: true, headerTitleAlign: 'center'}}>
+      {status !== 'unauth' && (
+        <>
+          <Stack.Screen
+            name="home"
+            component={TabNavigator}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="account"
+            options={{headerTitle: 'Cuenta'}}
+            component={AccountScreen}
+          />
+        </>
+      )}
       {status !== 'unauth' && user?.rol === 'ADMINISTRATOR' ? (
         <>
           <Stack.Screen
@@ -65,9 +77,9 @@ const MainNavigator = () => {
       ) : (
         <>
           <Stack.Screen
-            name="account"
+            name="unauth"
             options={{headerTitle: 'Cuenta'}}
-            component={AccountScreen}
+            component={UnAuthScreen}
           />
           <Stack.Screen
             name="login"

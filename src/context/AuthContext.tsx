@@ -19,10 +19,12 @@ import {
   LoginResponse,
   TokenCheck,
 } from '../interfaces/appInterfaces';
+import {useNavigation} from '@react-navigation/native';
 
 const initialData: AuthState = {
   status: 'loading',
   user: null,
+  loginIsLoading: false,
 };
 type AuthContextProps = AuthState & {
   login: (user: LoginRequest) => void;
@@ -31,6 +33,7 @@ type AuthContextProps = AuthState & {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider: FC = ({children}) => {
+  const navigation = useNavigation();
   const toast = useToast();
   const [state, dispatch] = useImmerReducer(AuthReducer, initialData, e => e);
   const firstCall = async () => {
@@ -41,8 +44,13 @@ const AuthProvider: FC = ({children}) => {
         dispatch(authError());
       } else {
         const resTokenCheck = await api.get<TokenCheck>('/Account');
-        console.log(resTokenCheck);
         dispatch(authSucess(resTokenCheck.data));
+        toast.show({
+          status: 'success',
+          title: `Bienvenido ${resTokenCheck.data.firstName}`,
+        });
+        navigation.navigate('home');
+
       }
     } catch (e) {
       dispatch(authError());
@@ -56,23 +64,29 @@ const AuthProvider: FC = ({children}) => {
     try {
       dispatch(loginInit());
       const resLogin = await api.post<LoginResponse>('/Account/login', user);
-      dispatch(loginSucess(resLogin.data.user));
       await AsyncStorage.setItem('token', resLogin.data.token);
+      dispatch(loginSucess(resLogin.data.user));
+      navigation.navigate('home');
       toast.show({
         status: 'success',
-        description: `Hola ${resLogin.data.user.email}`,
+        title: `Bienvenido ${resLogin.data.user.firstName}`,
       });
     } catch (e) {
       dispatch(loginError());
       toast.show({
         status: 'error',
-        description: 'Email o password incorrectos',
+        title: 'Email o password incorrectos',
       });
     }
   };
   const logout = async () => {
     await AsyncStorage.removeItem('token');
     dispatch(logoutAction());
+    navigation.navigate('unauth');
+    toast.show({
+      status: 'info',
+      title: 'Bye bye',
+    });
   };
 
   return (
@@ -82,6 +96,7 @@ const AuthProvider: FC = ({children}) => {
         user: state.user,
         status: state.status,
         logout,
+        loginIsLoading: state.loginIsLoading,
       }}>
       {children}
     </AuthContext.Provider>
