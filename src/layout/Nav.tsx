@@ -2,6 +2,7 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Box, HStack, Pressable, Text, Image, Icon} from 'native-base';
 import {nanoid} from 'nanoid/non-secure';
+
 const Nav = ({state, descriptors, navigation}) => {
   return (
     <>
@@ -73,7 +74,8 @@ const Nav = ({state, descriptors, navigation}) => {
               })}
             </HStack>
             <Box alignItems={'flex-end'} justifyContent={'flex-end'}>
-              <Pressable onPress={() => navigation.navigate('account')}>
+              <Pressable
+                onPress={() => navigation.navigate('account' as never)}>
                 <Icon
                   size="lg"
                   as={AntDesign}

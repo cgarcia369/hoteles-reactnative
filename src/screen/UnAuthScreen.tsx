@@ -27,7 +27,7 @@ const UnAuthScreen = () => {
           w="full"
           my="4"
           py="3"
-          onPress={() => navigation.navigate('login')}>
+          onPress={() => navigation.navigate('login' as never)}>
           <Text fontSize="xl" color="white">
             Iniciar sesion
           </Text>
@@ -38,7 +38,7 @@ const UnAuthScreen = () => {
           w="full"
           my="4"
           py="3"
-          onPress={() => navigation.navigate('register')}>
+          onPress={() => navigation.navigate('register' as never)}>
           <Text fontSize="xl" color="white">
             Registrarse
           </Text>

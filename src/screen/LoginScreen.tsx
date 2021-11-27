@@ -14,6 +14,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useAuth} from '../context/AuthContext';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import {LoginRequest} from '../interfaces/appInterfaces';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required('El email es un campo requerido'),
@@ -24,14 +25,14 @@ const LoginScreen = () => {
   return (
     <Formik
       validationSchema={validationSchema}
-      initialValues={{email: '', password: ''}}
+      initialValues={{email: '', password: ''} as LoginRequest}
       onSubmit={e => login(e)}>
       {({errors, touched, handleChange, handleSubmit, values}) => (
         <ScrollView
           _contentContainerStyle={{
             p: '5',
             display: 'flex',
-            height: 'full',
+            my: 'auto',
             justifyContent: 'center',
           }}>
           <HStack my={'5'} justifyContent={'center'} alignItems={'center'}>
@@ -45,7 +46,7 @@ const LoginScreen = () => {
               Hotels
             </Text>
           </HStack>
-          <FormControl my="4" isInvalid={errors.email && touched.email}>
+          <FormControl my="4" isInvalid={!!(errors.email && touched.email)}>
             <Stack mx="4">
               <FormControl.Label>
                 <Text fontSize="xl" color="gray.500">
@@ -77,7 +78,9 @@ const LoginScreen = () => {
               </FormControl.ErrorMessage>
             </Stack>
           </FormControl>
-          <FormControl my="4" isInvalid={errors.password && touched.password}>
+          <FormControl
+            my="4"
+            isInvalid={!!(errors.password && touched.password)}>
             <Stack mx="4">
               <FormControl.Label>
                 <Text fontSize="xl" color="gray.500">

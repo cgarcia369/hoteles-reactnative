@@ -12,11 +12,15 @@ import {
   loginInit,
   loginSucess,
   logoutAction,
+  registerError,
+  registerInit,
+  registerSuccess,
 } from '../actions/AuthActions';
 
 import {
   LoginRequest,
   LoginResponse,
+  RegisterRequest,
   TokenCheck,
 } from '../interfaces/appInterfaces';
 import {useNavigation} from '@react-navigation/native';
@@ -25,10 +29,12 @@ const initialData: AuthState = {
   status: 'loading',
   user: null,
   loginIsLoading: false,
+  registerIsLoading: false,
 };
 type AuthContextProps = AuthState & {
   login: (user: LoginRequest) => void;
   logout: () => void;
+  register: (user: RegisterRequest) => void;
 };
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
@@ -49,8 +55,7 @@ const AuthProvider: FC = ({children}) => {
           status: 'success',
           title: `Bienvenido ${resTokenCheck.data.firstName}`,
         });
-        navigation.navigate('home');
-
+        navigation.navigate('home' as never);
       }
     } catch (e) {
       dispatch(authError());
@@ -66,7 +71,7 @@ const AuthProvider: FC = ({children}) => {
       const resLogin = await api.post<LoginResponse>('/Account/login', user);
       await AsyncStorage.setItem('token', resLogin.data.token);
       dispatch(loginSucess(resLogin.data.user));
-      navigation.navigate('home');
+      navigation.navigate('home' as never);
       toast.show({
         status: 'success',
         title: `Bienvenido ${resLogin.data.user.firstName}`,
@@ -79,10 +84,29 @@ const AuthProvider: FC = ({children}) => {
       });
     }
   };
+  const register = async (user: RegisterRequest) => {
+    dispatch(registerInit());
+    try {
+      await api.post('/Account/register', user);
+      dispatch(registerSuccess());
+      navigation.navigate('login' as never);
+      toast.show({
+        status: 'success',
+        title: 'Registro completo',
+      });
+    } catch (e: any) {
+      dispatch(registerError());
+      toast.show({
+        status: 'error',
+        title: 'A ocurrido un error',
+        description: e.response?.data[Object.keys(e.response?.data)[0]],
+      });
+    }
+  };
   const logout = async () => {
     await AsyncStorage.removeItem('token');
     dispatch(logoutAction());
-    navigation.navigate('unauth');
+    navigation.navigate('unauth' as never);
     toast.show({
       status: 'info',
       title: 'Bye bye',
@@ -96,7 +120,9 @@ const AuthProvider: FC = ({children}) => {
         user: state.user,
         status: state.status,
         logout,
+        register,
         loginIsLoading: state.loginIsLoading,
+        registerIsLoading: state.registerIsLoading,
       }}>
       {children}
     </AuthContext.Provider>
