@@ -8,3 +8,6 @@ export const LOGOUT = 'LOGOUT';
 export const REGISTER_INIT = 'REGISTER_INIT';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
+export const HOTEL_INIT = 'HOTEL_INIT';
+export const HOTEL_SUCCESS = 'HOTEL_SUCCESS';
+export const HOTEL_ERROR = 'HOTEL_ERROR';

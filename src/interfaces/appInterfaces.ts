@@ -25,3 +25,36 @@ export interface User {
   email: string;
   rol: 'ADMINISTRATOR' | 'USER';
 }
+
+export interface Paginated<T> {
+  data: T;
+  metadata: {
+    count: number;
+    firstItemOnPage: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    isFirstPage: boolean;
+    isLastPage: boolean;
+    lastItemOnPage: number;
+    pageCount: number;
+    pageNumber: number;
+    totalItemCount: number;
+  };
+}
+
+export interface HotelResponse extends Paginated<Hotel[]> {}
+
+export interface Hotel {
+  id: number;
+  name: number;
+  address: string;
+  rating: number;
+  country :Country;
+  countryId: number;
+}
+export interface Country {
+  id: number;
+  hotels: Hotel[];
+  name: string;
+  shortName:string;
+}

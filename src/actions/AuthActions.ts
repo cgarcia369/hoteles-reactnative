@@ -48,12 +48,12 @@ export const logoutAction = (): AuthActions => ({
   type: LOGOUT,
 });
 
-export const registerInit = () :AuthActions =>({
-  type:REGISTER_INIT
-})
-export const registerSuccess = () :AuthActions =>({
-  type:REGISTER_SUCCESS
-})
-export const registerError = () :AuthActions =>({
-  type:REGISTER_ERROR
-})
+export const registerInit = (): AuthActions => ({
+  type: REGISTER_INIT,
+});
+export const registerSuccess = (): AuthActions => ({
+  type: REGISTER_SUCCESS,
+});
+export const registerError = (): AuthActions => ({
+  type: REGISTER_ERROR,
+});
