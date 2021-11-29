@@ -23,7 +23,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  rol: 'ADMINISTRATOR' | 'USER';
+  rol: 'Administrator' | 'User';
 }
 
 export interface Paginated<T> {
@@ -46,15 +46,33 @@ export interface HotelResponse extends Paginated<Hotel[]> {}
 
 export interface Hotel {
   id: number;
-  name: number;
+  name: string;
   address: string;
   rating: number;
-  country :Country;
+  country: Country;
   countryId: number;
 }
+
+export interface HotelEditRequest {
+  id: number;
+  name: string;
+  address: string;
+  rating: number;
+  countryId: number;
+}
+
 export interface Country {
   id: number;
   hotels: Hotel[];
   name: string;
-  shortName:string;
+  shortName: string;
+}
+
+export type CountryResponse = Country[];
+
+export interface HotelCreateRequest {
+  name: string;
+  address: string;
+  rating: number;
+  countryId: number;
 }

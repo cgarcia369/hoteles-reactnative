@@ -117,12 +117,9 @@ const AuthProvider: FC = ({children}) => {
     <AuthContext.Provider
       value={{
         login,
-        user: state.user,
-        status: state.status,
         logout,
         register,
-        loginIsLoading: state.loginIsLoading,
-        registerIsLoading: state.registerIsLoading,
+        ...state,
       }}>
       {children}
     </AuthContext.Provider>

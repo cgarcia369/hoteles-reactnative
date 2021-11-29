@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
   roles: Yup.array().min(1, 'El rol es un campo requerido'),
 });
 const RegisterScreen = () => {
-  const {register,registerIsLoading} = useAuth();
+  const {register, registerIsLoading} = useAuth();
   return (
     <Formik
       validationSchema={validationSchema}

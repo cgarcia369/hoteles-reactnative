@@ -5,6 +5,7 @@ import MainNavigator from './src/navigation/MainNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import HotelProvider from './src/context/HotelContext';
 import {Provider as PaperProvider} from 'react-native-paper';
+import {CountryProvider} from './src/context/CountryContext';
 
 export default function App() {
   return (
@@ -13,7 +14,9 @@ export default function App() {
         <NativeBaseProvider>
           <AuthProvider>
             <HotelProvider>
-              <MainNavigator />
+              <CountryProvider>
+                <MainNavigator />
+              </CountryProvider>
             </HotelProvider>
           </AuthProvider>
         </NativeBaseProvider>

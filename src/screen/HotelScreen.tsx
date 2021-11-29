@@ -1,80 +1,70 @@
 import React, {useEffect, useState} from 'react';
 import {useHotel} from '../context/HotelContext';
-import {Box, FlatList, HStack, Icon, Text, Pressable} from 'native-base';
+import {Box, FlatList, Icon, Pressable} from 'native-base';
 import HotelItem from '../components/HotelItem';
-import Evil from 'react-native-vector-icons/EvilIcons';
+import Pagination from '../components/Pagination';
+import {useNavigation} from '@react-navigation/native';
+import {useCountry} from '../context/CountryContext';
+import {useAuth} from '../context/AuthContext';
+import Feather from 'react-native-vector-icons/Feather';
 
 const HotelScreen = () => {
-  const {data, isLoading, getHotels} = useHotel();
+  const navigation = useNavigation();
+
   const [page, setPage] = useState<number>(1);
   useEffect(() => {
     getHotels(page);
-  }, []);
-  useEffect(() => {
-    console.log('hola');
-    console.log(page);
-    getHotels(page);
+    getCountries();
   }, [page]);
-  console.log(data?.metadata.hasNextPage);
+  const {user} = useAuth();
+  const {data, isLoading, getHotels} = useHotel();
+  const {getCountries} = useCountry();
   return (
-    <Box h={'full'} p="5">
+    <Box h={'full'} p="5" position={'relative'}>
+      <Box
+        bg={'orange.200'}
+        shadow={3}
+        p={'2'}
+        borderRadius={'full'}
+        position={'absolute'}
+        bottom={'16'}
+        right={0}
+        m={'3'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        zIndex={99}>
+        <Pressable onPress={() => navigation.navigate('cHotel' as never)}>
+          <Icon
+            as={Feather}
+            name={'plus'}
+            size={'xl'}
+            textAlign={'center'}
+            color={'gray.600'}
+          />
+        </Pressable>
+      </Box>
       <FlatList
         onRefresh={() => getHotels(page)}
         refreshing={isLoading}
         data={data?.data}
-        renderItem={({item}) => <HotelItem data={item} />}
+        renderItem={({item}) => (
+          <HotelItem
+            onPress={e =>
+              user && user.rol === 'Administrator'
+                ? navigation.navigate('dHotel' as never, e as never)
+                : () => {}
+            }
+            data={item}
+          />
+        )}
       />
-      <HStack
-        w={'full'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        mt={'4'}>
-        <Pressable
-          onPress={() => setPage(page - 1)}
-          pl={'2'}
-          pr={'4'}
-          borderRadius={'xl'}
-          bg={'orange.100'}
-          disabled={!data?.metadata.hasPreviousPage || isLoading}
-          mx={'2'}
-          display={'flex'}
-          flexDirection={'row'}
-          justifyContent={'center'}
-          alignItems={'center'}>
-          <Icon
-            as={Evil}
-            name={'chevron-left'}
-            size={'md'}
-            color={data?.metadata.hasPreviousPage ? 'black' : 'warmGray.400'}
-          />
-          <Text
-            color={data?.metadata.hasPreviousPage ? 'black' : 'warmGray.400'}>
-            Anterior
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setPage(page + 1)}
-          pl={'4'}
-          pr={'2'}
-          borderRadius={'xl'}
-          bg={'orange.100'}
-          disabled={!data?.metadata.hasNextPage || isLoading}
-          mx={'2'}
-          display={'flex'}
-          flexDirection={'row'}
-          justifyContent={'center'}
-          alignItems={'center'}>
-          <Text color={data?.metadata.hasNextPage ? 'black' : 'warmGray.400'}>
-            Siguiente
-          </Text>
-          <Icon
-            as={Evil}
-            name={'chevron-right'}
-            size={'md'}
-            color={data?.metadata.hasNextPage ? 'black' : 'warmGray.400'}
-          />
-        </Pressable>
-      </HStack>
+      <Pagination
+        onPageChange={e => setPage(e)}
+        page={page}
+        hasPreviousPage={data?.metadata.hasPreviousPage}
+        hasNextPage={data?.metadata.hasNextPage}
+        isLoading={isLoading}
+      />
     </Box>
   );
 };

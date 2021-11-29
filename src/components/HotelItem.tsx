@@ -6,17 +6,26 @@ import {
   VStack,
   Heading,
   Badge,
-  Avatar,
-  Box,
+  Pressable,
 } from 'native-base';
 import {Hotel} from '../interfaces/appInterfaces';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type HotelItemProps = Hotel;
-const HotelItem = ({data}: {data: HotelItemProps}) => {
+type HotelItemProps = {
+  data: Hotel;
+  onPress?: (data: Hotel) => void;
+};
+const HotelItem = ({data, onPress}: HotelItemProps) => {
   return (
     <>
-      <Box w="full" bg={'white'} p="3" borderRadius={'xl'} shadow={3} my={'3'}>
+      <Pressable
+        onPress={() => onPress !== undefined && onPress(data)}
+        w="full"
+        bg={'white'}
+        p="3"
+        borderRadius={'xl'}
+        shadow={3}
+        my={'3'}>
         <VStack w="full">
           <Heading textTransform={'capitalize'} textAlign={'center'}>
             {data.name}
@@ -35,10 +44,9 @@ const HotelItem = ({data}: {data: HotelItemProps}) => {
             </Badge>
           </HStack>
         </VStack>
-      </Box>
+      </Pressable>
       <Divider />
     </>
   );
 };
-
 export default HotelItem;

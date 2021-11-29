@@ -23,6 +23,7 @@ const MainNavigator = () => {
   if (status === 'loading') {
     return <Spinner />;
   }
+  console.log(user?.rol);
   return (
     <Stack.Navigator
       initialRouteName="unauth"
@@ -41,7 +42,7 @@ const MainNavigator = () => {
           />
         </>
       )}
-      {status !== 'unauth' && user?.rol === 'ADMINISTRATOR' ? (
+      {status !== 'unauth' && user?.rol === 'Administrator' ? (
         <>
           <Stack.Screen
             name="cHotel"
