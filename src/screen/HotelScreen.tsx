@@ -21,28 +21,31 @@ const HotelScreen = () => {
   const {getCountries} = useCountry();
   return (
     <Box h={'full'} p="5" position={'relative'}>
-      <Box
-        bg={'orange.200'}
-        shadow={3}
-        p={'2'}
-        borderRadius={'full'}
-        position={'absolute'}
-        bottom={'16'}
-        right={0}
-        m={'3'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        zIndex={99}>
-        <Pressable onPress={() => navigation.navigate('cHotel' as never)}>
-          <Icon
-            as={Feather}
-            name={'plus'}
-            size={'xl'}
-            textAlign={'center'}
-            color={'gray.600'}
-          />
-        </Pressable>
-      </Box>
+      {user && user.rol === 'Administrator' ? (
+        <Box
+          bg={'orange.200'}
+          shadow={3}
+          p={'2'}
+          borderRadius={'full'}
+          position={'absolute'}
+          bottom={'16'}
+          right={0}
+          m={'3'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          zIndex={99}>
+          <Pressable onPress={() => navigation.navigate('cHotel' as never)}>
+            <Icon
+              as={Feather}
+              name={'plus'}
+              size={'xl'}
+              textAlign={'center'}
+              color={'gray.600'}
+            />
+          </Pressable>
+        </Box>
+      ) : null}
+
       <FlatList
         onRefresh={() => getHotels(page)}
         refreshing={isLoading}

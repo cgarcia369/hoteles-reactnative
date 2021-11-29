@@ -93,7 +93,7 @@ const RegisterScreen = () => {
                 value={values.password}
                 _focus={{borderColor: 'orange.400'}}
                 size="xl"
-                type="text"
+                type="password"
                 placeholder="Password"
               />
               <FormControl.ErrorMessage

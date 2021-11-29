@@ -16,28 +16,31 @@ const CountryScreen = () => {
   const {isLoading, data, getCountries} = useCountry();
   return (
     <Box h={'full'} p="5" position={'relative'}>
-      <Box
-        bg={'orange.200'}
-        shadow={3}
-        p={'2'}
-        borderRadius={'full'}
-        position={'absolute'}
-        bottom={0}
-        right={0}
-        m={'4'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        zIndex={99}>
-        <Pressable onPress={() => navigation.navigate('cPais' as never)}>
-          <Icon
-            as={Feather}
-            name={'plus'}
-            size={'xl'}
-            textAlign={'center'}
-            color={'gray.600'}
-          />
-        </Pressable>
-      </Box>
+      {user && user?.rol === 'Administrator' ? (
+        <Box
+          bg={'orange.200'}
+          shadow={3}
+          p={'2'}
+          borderRadius={'full'}
+          position={'absolute'}
+          bottom={0}
+          right={0}
+          m={'4'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          zIndex={99}>
+          <Pressable onPress={() => navigation.navigate('cPais' as never)}>
+            <Icon
+              as={Feather}
+              name={'plus'}
+              size={'xl'}
+              textAlign={'center'}
+              color={'gray.600'}
+            />
+          </Pressable>
+        </Box>
+      ) : null}
+
       <FlatList
         onRefresh={() => getCountries()}
         refreshing={isLoading}
