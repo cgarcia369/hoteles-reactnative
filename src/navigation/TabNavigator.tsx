@@ -13,7 +13,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator tabBar={props => <Nav {...props} />}>
       <Tab.Screen name="Hoteles" component={HotelScreen} />
-      <Tab.Screen name="Ciudades" component={CountryScreen} />
+      <Tab.Screen name="Paises" component={CountryScreen} />
     </Tab.Navigator>
   );
 };

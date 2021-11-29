@@ -76,3 +76,12 @@ export interface HotelCreateRequest {
   rating: number;
   countryId: number;
 }
+
+export interface CountryCreateRequest {
+  name: string;
+  shortName: string;
+}
+
+export interface CountryEditRequest extends CountryCreateRequest {
+  id: number;
+}

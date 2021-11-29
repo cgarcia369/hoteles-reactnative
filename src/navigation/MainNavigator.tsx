@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 
 import CreateHotelScreen from '../screen/CreateHotelScreen';
-import HotelEditScreen from '../screen/HotelEditScreen';
 import DetailsHotelScreen from '../screen/DetailsHotelScreen';
 import DetailsCountryScreen from '../screen/DetailsCountryScreen';
 import CreateCountryScreen from '../screen/CreateCountryScreen';
@@ -50,11 +49,6 @@ const MainNavigator = () => {
             component={CreateHotelScreen}
           />
           <Stack.Screen
-            name="eHotel"
-            options={{headerTitle: 'Editar hotel'}}
-            component={HotelEditScreen}
-          />
-          <Stack.Screen
             name="dHotel"
             options={{headerTitle: 'Detalles hotel'}}
             component={DetailsHotelScreen}
@@ -63,11 +57,6 @@ const MainNavigator = () => {
             name="cPais"
             options={{headerTitle: 'Crear pais'}}
             component={CreateCountryScreen}
-          />
-          <Stack.Screen
-            name="ePais"
-            options={{headerTitle: 'Editar pais'}}
-            component={HotelEditScreen}
           />
           <Stack.Screen
             name="dPais"

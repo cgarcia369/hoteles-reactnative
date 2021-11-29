@@ -65,6 +65,7 @@ export const HotelReducer = (state: HotelState, action: HotelAction) => {
     }
     case HOTEL_DELETE_ERROR: {
       state.isDeleteLoading = false;
+      break;
     }
     case HOTEL_CREATE_INIT: {
       state.isCreateLoading = true;

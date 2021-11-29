@@ -27,7 +27,9 @@ const AccountScreen = () => {
         color="gray.600"
         fontSize="3xl"
         mt="5">{`${user?.firstName} ${user?.lastName}`}</Text>
-      <Badge mt="2" colorScheme="success">{user?.rol}</Badge>
+      <Badge mt="2" colorScheme="success">
+        {user?.rol}
+      </Badge>
       <Box
         w="full"
         display="flex"
@@ -38,10 +40,10 @@ const AccountScreen = () => {
           onPress={logout}
           w="full"
           p="4"
-          bg="orange.400"
+          bg="orange.300"
           _pressed={{bg: 'orange.200'}}>
           <Text fontSize="md" color="white">
-            Logout
+            Salir de la cuenta
           </Text>
         </Button>
       </Box>
